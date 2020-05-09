@@ -5,7 +5,7 @@ const User = require('../models/User');
 module.exports.create = async (req, res, next) => {
   req.login(req.user, { session: false }, async (error) => {
     if (error) return next(error);
-    const body = { _id: req.user.id, email: req.user.email };
+    const body = { _id: req.user.id, username: req.user.username };
 
     const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
 

@@ -6,13 +6,13 @@ const User = require('../models/User');
 
 
 passport.use('signup', new localStrategy({
-  usernameField: 'email',
-  passwordField: 'password',
+  usernameField: 'username',
+  passwordField: 'username',
   passReqToCallback: true
-}, async (req, email, password, done) => {
-  const { name } = req.body;
+}, async (req, username, _, done) => {
+  const { phone } = req.body;
   try {
-    const user = await User.create({ email, password, name });
+    const user = await User.create({ username, phone });
     return done(null, user);
   } catch (error) {
     done(error);
