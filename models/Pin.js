@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const pinSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  pins: [
+  pin:
     {
       type: {
         type: String,
@@ -12,7 +12,7 @@ const pinSchema = mongoose.Schema({
         Number
       ]
     }
-  ],
+  ,
   type: {
     type: String,
     enum: ['safety', 'ilumination', 'maintenance']
