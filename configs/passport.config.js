@@ -6,13 +6,13 @@ const User = require('../models/User');
 
 
 passport.use('signup', new localStrategy({
-  usernameField: 'email',
+  usernameField: 'username',
   passwordField: 'password',
   passReqToCallback: true
-}, async (req, email, password, done) => {
-  const { name } = req.body;
+}, async (req, username, password, done) => {
+  const { phone } = req.body;
   try {
-    const user = await User.create({ email, password, name });
+    const user = await User.create({ username, password, phone });
     return done(null, user);
   } catch (error) {
     done(error);
@@ -22,12 +22,18 @@ passport.use('signup', new localStrategy({
 
 passport.use('login', new localStrategy({
   usernameField: 'username',
-  passwordField: 'username'
-}, async (email, password, done) => {
+  passwordField: 'password'
+}, async (username, password, done) => {
+
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     if (!user) {
       return done(null, false, { message: 'User not found' });
+    }
+
+    const validate = await user.checkPassword(password);
+    if (!validate) {
+      return done(null, false, { message: 'Wrong Password' });
     }
 
     return done(null, user, { message: 'Logged in Successfully' });
