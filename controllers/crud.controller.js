@@ -1,4 +1,5 @@
 module.exports.create = (Model) => (req, res, next) => {
+  console.log(req.body);
   new Model(req.body)
     .save()
     .then((data) => {
